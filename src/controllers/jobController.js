@@ -11,7 +11,7 @@ const getAllJobs = (req, res) => {
 };
 
 const getOneJob = (req, res) => {
-    const job = jobService.getOneJob();
+    const job = jobService.getOneJob(req, res);
     res.send("Get an existing job");
 };
 
