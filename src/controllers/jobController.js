@@ -5,28 +5,28 @@
 
 const jobService = require("../services/jobService");
 
-const getAllJobs = (req, res) => {
-    const response = jobService.getAllJobs();
+const getAllJobs = async (req, res) => {
+    const response = await jobService.getAllJobs();
     res.send({success: response.success, jobs: response.jobs});
 };
 
-const getOneJob = (req, res) => {
-    const response = jobService.getOneJob(req, res);
+const getOneJob = async (req, res) => {
+    const response = await jobService.getOneJob(req, res);
     res.send({success: response.success, jobs: response.jobs});
 };
 
-const createCustomJob = (req, res) => {
-    const response = jobService.createCustomJob();
+const createCustomJob = async (req, res) => {
+    const response = await jobService.createCustomJob(req, res);
     res.send({success: response.success});
 };
 
-const updateCustomJob = (req, res) => {
-    const response = jobService.updateCustomJob();
+const updateCustomJob = async (req, res) => {
+    const response = await jobService.updateCustomJob(req, res);
     res.send({success: response.success});
 };
 
-const deleteCustomJob = (req, res) => {
-    const response = jobService.deleteCustomJob();
+const deleteCustomJob = async (req, res) => {
+    const response = await jobService.deleteCustomJob(req, res);
     res.send({success: response.success});
 };
 
