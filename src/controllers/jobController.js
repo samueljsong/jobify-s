@@ -6,28 +6,28 @@
 const jobService = require("../services/jobService");
 
 const getAllJobs = (req, res) => {
-    const allJobs = jobService.getAllJobs();
-    res.send("Get all jobs");
+    const response = jobService.getAllJobs();
+    res.send({success: response.success, jobs: response.jobs});
 };
 
 const getOneJob = (req, res) => {
-    const job = jobService.getOneJob(req, res);
-    res.send("Get an existing job");
+    const response = jobService.getOneJob(req, res);
+    res.send({success: response.success, jobs: response.jobs});
 };
 
 const createCustomJob = (req, res) => {
-    const createJob = jobService.createCustomJob();
-    res.send("Create custom job to add to your dashboard");
+    const response = jobService.createCustomJob();
+    res.send({success: response.success});
 };
 
 const updateCustomJob = (req, res) => {
-    const updateJob = jobService.updateCustomJob();
-    res.send("Updating a custom job in your dashboard");
+    const response = jobService.updateCustomJob();
+    res.send({success: response.success});
 };
 
 const deleteCustomJob = (req, res) => {
-    const deleteJob = jobService.deleteCustomJob();
-    res.send("Delete a custome job in your dashboard");
+    const response = jobService.deleteCustomJob();
+    res.send({success: response.success});
 };
 
 module.exports = {

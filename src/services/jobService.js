@@ -52,29 +52,74 @@ const getAllJobs = async () => {
     }
 
     const api_results = await apiCall(params, typeList.SEARCH);
-    return [...database_results, ...api_results] || [];
+    const results_list = [...database_results, ...api_results];
+    return {success: results_list != [], jobs: results_list};
 };
 
 const getOneJob = async (req, res) => {
+    // ! Check if job is custom or from api
+    let response;
+    if (req.params.jobId) { // If there is a jobId param
+        const params = {
+            job_id: req.params.jobId,
+            extended_publisher_details: 'false'
+        }
+    
+        response = await apiCall(params, typeList.DETAILS);
+    } else {
+        const params = {
+            job_id: req.params.jobId
+        }
+        response = await db_jobs.getCustomJobDetails(params);
+    }
+    return {success: response != [], jobs: response};
+};
+
+const createCustomJob = async (req, res) => {
     const params = {
-        job_id: req.params.jobId,
-        extended_publisher_details: 'false'
+        position: req.params.position,
+        description: req.params.description,
+        date_posted: req.params.date_posted || Date.now(),
+        temp_skills: req.params.temp_skills || "No skills",
+        employement_type: req.params.employement_type,
+        company_name: req.params.company_name,
+        company_link: req.params.company_link,
+        company_logo_link: req.params.company_logo_link,
+        job_city: req.params.job_city,
+        job_state: req.params.job_state,
+        job_country: req.params.job_country,
     }
 
-    const response = await apiCall(params, typeList.DETAILS);
-    return response || [];
+    const response = await db_jobs.createCustomJob(params);
+    return {success: response};
 };
 
-const createCustomJob = () => {
-    return;
+const updateCustomJob = async (req, res) => {
+    const params = {
+        position: req.params.position,
+        description: req.params.description,
+        date_posted: req.params.date_posted || Date.now(),
+        temp_skills: req.params.temp_skills || "No skills",
+        employement_type: req.params.employement_type,
+        company_name: req.params.company_name,
+        company_link: req.params.company_link,
+        company_logo_link: req.params.company_logo_link,
+        job_city: req.params.job_city,
+        job_state: req.params.job_state,
+        job_country: req.params.job_country,
+    }
+
+    const response = await db_jobs.updateCustomJob(params);
+    return {success: response};
 };
 
-const updateCustomJob = () => {
-    return;
-};
+const deleteCustomJob = async (req, res) => {
+    const params = {
+        custom_job_id: req.params.custom_job_id,
+    }
 
-const deleteCustomJob = () => {
-    return;
+    const response = await db_jobs.updateCustomJob(params);
+    return {success: response};
 };
 
 module.exports = {

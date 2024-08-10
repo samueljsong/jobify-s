@@ -1,3 +1,4 @@
+const { deleteCustomJob } = require("../services/jobService.js");
 const database = require("./db_connection.js");
 
 const getAllJobs = async () => {
@@ -6,16 +7,31 @@ const getAllJobs = async () => {
   *
   FROM custom_job
   WHERE 1 = 1`;
-  const params = {};
 
   try {
-    const result = await database.query(query, params);
+    const result = await database.query(query);
     return result[0];
   } catch (err) {
     console.log(err);
     return [];
   }
 };
+
+const getCustomJobDetails = async (params) => {
+    const query = `
+    SELECT 
+    *
+    FROM custom_job
+    WHERE custom_job_id = :custom_job_id`;
+
+    try {
+      const result = await database.query(query, params);
+      return result[0];
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+}
 
 const createCustomJob = async (params) => {
     const query = `
@@ -78,5 +94,9 @@ const deleteEvent = async (params) => {
 
 
 module.exports = {
-    getAllJobs
+    getAllJobs,
+    getCustomJobDetails,
+    createCustomJob,
+    updateCustomJob,
+    deleteCustomJob
 }
